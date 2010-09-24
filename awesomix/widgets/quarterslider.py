@@ -13,12 +13,13 @@ class MTQuarterSlider(MTWidget):
 
     def draw(self):
         super(MTQuarterSlider, self).draw()
-        set_color(0,1,0)
-        i = self.radius * fabs(self.start_angle - self.end_angle)
-        o = (self.radius + 100) * fabs(self.start_angle - self.end_angle)
+        set_color(1,0,0) 
+	angle = fabs(self.start_angle - self.end_angle)
+        i = self.radius * angle
+        o = (self.radius + 100) * angle
         sweep_angle = fabs(self.end_angle - self.start_angle)
         print(i,o)
-        drawSemiCircle(pos=self.pos, inner_radius=i, outer_radius=o, start_angle=self.start_angle, sweep_angle=sweep_angle)
+        drawSemiCircle(pos=self.pos, inner_radius=i, outer_radius=o)
 
 
 if __name__ == '__main__':
