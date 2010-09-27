@@ -1,5 +1,6 @@
 from pymt import *
 from quarterslider import MTQuarterSlider
+from math import cos, sin, pi
 
 class MTQuarterSliderButton(MTQuarterSlider):
     def __init__(self, **kwargs):
@@ -11,10 +12,18 @@ class MTQuarterSliderButton(MTQuarterSlider):
         curpos = Vector(self.pos)
         touchpos = Vector(x, y)
         distance = curpos.distance(touchpos)
-        a = self.inner_radius * self.end_angle
-        b = self.outer_radius * self.end_angle
-        print(distance, a, b)
-        if ((self.inner_radius >= distance) and (distance <= self.outer_radius)):
+        a = Vector(self.x + (self.inner_radius * sin(2 * pi * self.start_angle / 360)),
+                self.y +(self.inner_radius * cos(2 * pi * self.start_angle / 360)))
+        b = Vector(self.x + (self.inner_radius * sin(2 * pi * self.start_angle + self.end_angle / 360)),
+                self.y +(self.inner_radius * cos(2 * pi * self.start_angle + self.end_angle/ 360)))
+        c = Vector(self.x + (self.outer_radius * sin(2 * pi * self.start_angle / 360)),
+                self.y +(self.outer_radius * cos(2 * pi * self.start_angle / 360)))
+        d = Vector(self.x + (self.outer_radius * sin(2 * pi * self.start_angle + self.end_angle / 360)),
+                self.y +(self.outer_radius * cos(2 * pi * self.start_angle + self.end_angle/ 360)))
+        #i = line_intersection(a, b, c, d)
+        #distance2 = i.distance(touchpos)
+        print(distance)
+        if ((distance >= self.inner_radius) and (distance <= self.outer_radius)):
             return True
         else:
             return False
@@ -41,7 +50,7 @@ class MTQuarterSliderButton(MTQuarterSlider):
             #set_color(0, 1, 0)
         #else:
             #set_color(0, 0, 1)
- #       super(MTQuarterSlider, self).draw()
+        #super(MTQuarterSlider, self).draw()
 
 if __name__ == '__main__':
     w = getWindow()
