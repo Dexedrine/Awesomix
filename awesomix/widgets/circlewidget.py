@@ -38,11 +38,3 @@ class MTCircleWidget(MTWidget):
     @property
     def active(self):
         return self._active
-
-
-if __name__ == '__main__':
-    win = getWindow()
-    for x in xrange(5):
-        circle = MTCircleWidget(pos=(50 + x * 150, win.height / 2.))
-        win.add_widget(circle)
-    runTouchApp()
