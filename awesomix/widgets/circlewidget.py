@@ -15,7 +15,9 @@ class MTCircleWidget(MTWidget):
 
     def on_touch_down(self, touch):
         if self._active:
-            return super(MTCircleWidget, self).on_touch_down(touch)
+           return super(MTCircleWidget, self).on_touch_down(touch)
+        #if super(MTCircleWidget, self).on_touch_down(touch):
+            #return True
         if not self.collide_point(touch.x, touch.y):
             return
         self._active = True

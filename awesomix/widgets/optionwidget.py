@@ -9,17 +9,10 @@ class MTOptionWidget(MTMovableCircleWidget):
     def on_update(self):
         anglestep = 360 / len(self.children)
         for index,child in enumerate(self.children):
-            '''
-            child.center = (
-                    (self.x + r * sin(angle)),
-                    (self.y + r * cos(angle)))
-            '''
-            #print(index,child)
-            #print(self.angle)
             child.pos = self.pos
+            child.inner_radius = self.radius
             child.start_angle = self.angle
             child.end_angle = self.angle + anglestep
-            child.inner_radius = self.radius
             self.angle += anglestep
 
 
