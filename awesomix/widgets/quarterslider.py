@@ -19,14 +19,8 @@ class MTQuarterSlider(MTQuarter):
 
     def update_slider(self, x, y):
         d = Vector(self.pos).distance((x, y))
-        print d
-        if d < self.inner_radius :
-            self.slider_radius = self.inner_radius
-            return
-        if d > self.outer_radius:
-            self.slider_radius = self.outer_radius
-            return
-
+        d = boundary(self.inner_radius, self.outer_radius, d)
+        self.slider_radius = d
 
     def on_touch_down(self, touch):
         if super(MTQuarterSlider,self).on_touch_down(touch):
