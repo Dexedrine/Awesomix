@@ -8,8 +8,9 @@ class MTQuarter(MTWidget):
         self.outer_radius = kwargs.get('outer_radius', 100)
         self.start_angle = kwargs.get('start_angle', 0)
         self.end_angle = kwargs.get('end_angle', 360 / 10)
-        self.color = kwargs.get('color', (0, 1, 0))
-        self.bg_color = kwargs.get('bg_color', (1, 1, 0))
+
+        self.color = kwargs.get('color', (255, 165, 0))
+        self.bg_color = kwargs.get('bg_color', (250, 250, 250))
         self._active = False
 
     def collide_point(self, x, y):
