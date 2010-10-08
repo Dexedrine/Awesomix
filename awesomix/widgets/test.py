@@ -12,5 +12,6 @@ if __name__ == '__main__':
     win.add_widget(circle)
     circle2 = MTOptionWidget(pos=(100, 100))
     circle2.add_widget(MTQuarterSliderButton(color=(1,0,0)))
+    circle2.add_widget(MTQuarterSliderButton(color=(0,1,0)))
     win.add_widget(circle2)
     runTouchApp()
