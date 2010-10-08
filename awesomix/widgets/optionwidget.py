@@ -6,14 +6,16 @@ class MTOptionWidget(MTMovableCircleWidget):
         super(MTOptionWidget, self).__init__(**kwargs)
 
     def on_update(self):
+        super(MTOptionWidget, self).on_update()
         angle = 0
-        anglestep = 360 / len(self.children)
+        totalzoom = sum([x.lzoom for x in self.children])
+        anglestep = 360. / totalzoom
         for index,child in enumerate(self.children):
             child.pos = self.pos
             child.inner_radius = self.radius
             child.start_angle = angle
-            child.end_angle = angle + anglestep
-            angle += anglestep
+            child.end_angle = angle + anglestep * child.lzoom
+            angle += anglestep * child.lzoom
 
 
 if __name__ == '__main__':
