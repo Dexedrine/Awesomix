@@ -1,11 +1,10 @@
 from pymt import *
-from quarterslider import MTQuarterSlider
+from quarter import MTQuarter
 from math import cos, sin, radians
 
-class MTQuarterSliderButton(MTQuarterSlider):
+class MTQuarterButton(MTQuarter):
     def __init__(self, **kwargs):
-        super(MTQuarterSliderButton, self).__init__(**kwargs)
-        self._active = False
+        super(MTQuarterButton, self).__init__(**kwargs)
         self._active_touch = None
         self.rotation = self.start_angle;
         self._radius_line = self.outer_radius * sin(radians(self.rotation)), \
@@ -23,22 +22,21 @@ class MTQuarterSliderButton(MTQuarterSlider):
 
     def on_touch_down(self, touch):
         if self._active:
-            return super(MTQuarterSliderButton, self).on_touch_down(touch)
+            return super(MTQuarterButton, self).on_touch_down(touch)
         if not self.collide_point(touch.x, touch.y):
             return
         self._active = True
         self._active_touch = touch.uid
-        self.color = (200,200,200)
         return True
 
     def on_touch_up(self, touch):
         if touch.uid != self._active_touch:
             return
         self._active = False
-        self.color = self._color
+        print("toto")
         return True
 
 if __name__ == '__main__':
     w = getWindow()
-    slider = MTQuarterSliderButton(pos=w.center)
-    runTouchApp(slider)
+    button = MTQuarterButton(pos=w.center)
+    runTouchApp(button)
