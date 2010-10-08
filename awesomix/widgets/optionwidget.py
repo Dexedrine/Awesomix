@@ -4,16 +4,16 @@ from movablecirclewidget import MTMovableCircleWidget
 class MTOptionWidget(MTMovableCircleWidget):
     def __init__(self, **kwargs):
         super(MTOptionWidget, self).__init__(**kwargs)
-        self.angle = kwargs.get('angle', 0)
 
     def on_update(self):
+        angle = 0
         anglestep = 360 / len(self.children)
         for index,child in enumerate(self.children):
             child.pos = self.pos
             child.inner_radius = self.radius
-            child.start_angle = self.angle
-            child.end_angle = self.angle + anglestep
-            self.angle += anglestep
+            child.start_angle = angle
+            child.end_angle = angle + anglestep
+            angle += anglestep
 
 
 if __name__ == '__main__':

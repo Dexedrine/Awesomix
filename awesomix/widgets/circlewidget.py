@@ -4,6 +4,8 @@ class MTCircleWidget(MTWidget):
     def __init__(self, **kwargs):
         super(MTCircleWidget, self).__init__(**kwargs)
         self.radius = kwargs.get('radius', 50)
+        self.color = kwargs.get('color', (0, 1, 0))
+        self.bg_color = kwargs.get('bg_color', (0, 0, 1))
         self._active = False
         self._active_touch = None
 
@@ -25,6 +27,8 @@ class MTCircleWidget(MTWidget):
         return True
 
     def on_touch_up(self, touch):
+        if super(MTCircleWidget, self).on_touch_up(touch):
+            return True
         if touch.uid != self._active_touch:
             return
         self._active = False
