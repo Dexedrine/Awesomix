@@ -13,8 +13,12 @@ class MTQuarter(MTWidget):
 
         self.color = kwargs.get('color', (255, 165, 0))
         self.bg_color = kwargs.get('bg_color', (250, 250, 250))
+        #activation a false par defaut
         self._active = False
+        #valeur du zoom par defaut =5
         self.active_zoom = kwargs.get('active_zoom', 5)
+        #par defaut none mais prend l'id du premier doigt, c'est l'uid qui controle les actions
+        self._active_touch = None
 
     @property
     def outer_radius(self):
@@ -28,7 +32,11 @@ class MTQuarter(MTWidget):
             self.zoom = self.active_zoom
         else:
             self.zoom = 1
+    #detecte automatiquement lorsque l'on get ou set !         
     active = property(_get_active, _set_active)
+
+    def update_widget(self, x, y):
+        pass
 
     def collide_point(self, x, y):
         cx, cy = self.pos
@@ -47,20 +55,35 @@ class MTQuarter(MTWidget):
             return True
         if not self.collide_point(*touch.pos):
             return
+        if self._active_touch is not None:
+           return
+        self._active_touch = touch.uid
         print 'on_touch_down()',touch.pos
         self.active = True
+        self.update_widget(*touch.pos)
         return True
 
 
     def on_touch_up(self, touch):
+        if touch.uid != self._active_touch:
+            return
         if super(MTQuarter,self).on_touch_up(touch):
+            return True
+        print 'on_touch_up()',touch.pos
+        self.active = False
+        self._active_touch = None
+        return True
+
+    def on_touch_move(self,touch):
+        if super(MTQuarter,self).on_touch_move(touch):
             return True
         if not self.collide_point(*touch.pos):
             return
-        print 'on_touch_up()',touch.pos
-        self.active = False
+        if touch.uid != self._active_touch:
+            return
+        self.update_widget(*touch.pos)
+        print 'move', touch.pos
         return True
-
 
     def draw(self):
         if self._active:
