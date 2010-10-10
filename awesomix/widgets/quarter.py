@@ -14,10 +14,21 @@ class MTQuarter(MTWidget):
         self.color = kwargs.get('color', (255, 165, 0))
         self.bg_color = kwargs.get('bg_color', (250, 250, 250))
         self._active = False
+        self.active_zoom = kwargs.get('active_zoom', 5)
 
     @property
     def outer_radius(self):
         return self._outer_radius + ((self.lzoom - 1) * 10)
+
+    def _get_active(self):
+        return self._active
+    def _set_active(self, x):
+        self._active = x
+        if self._active == True:
+            self.zoom = self.active_zoom
+        else:
+            self.zoom = 1
+    active = property(_get_active, _set_active)
 
     def collide_point(self, x, y):
         cx, cy = self.pos
@@ -30,6 +41,26 @@ class MTQuarter(MTWidget):
         if 0 < point_angle > self.end_angle - self.start_angle:
             return False
         return self.inner_radius < point_dist <= self.outer_radius
+
+    def on_touch_down(self, touch):
+        if super(MTQuarter,self).on_touch_down(touch):
+            return True
+        if not self.collide_point(*touch.pos):
+            return
+        print 'on_touch_down()',touch.pos
+        self.active = True
+        return True
+
+
+    def on_touch_up(self, touch):
+        if super(MTQuarter,self).on_touch_up(touch):
+            return True
+        if not self.collide_point(*touch.pos):
+            return
+        print 'on_touch_up()',touch.pos
+        self.active = False
+        return True
+
 
     def draw(self):
         if self._active:
@@ -50,5 +81,15 @@ class MTQuarter(MTWidget):
 
 if __name__ == '__main__':
     w = getWindow()
+
+    button = MTButton(label='push me')
+    w.add_widget(button)
+
     quarter = MTQuarter(pos=w.center)
-    runTouchApp(quarter)
+    w.add_widget(quarter)
+
+    def on_button_press(*l):
+        quarter.active = not quarter.active
+    button.connect('on_press', on_button_press)
+
+    runTouchApp()
