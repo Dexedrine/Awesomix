@@ -1,9 +1,10 @@
 class Sound(object):
-    def __init__(self, manager, filename):
+    def __init__(self, manager, filename, **kwargs):
         super(Sound, self).__init__()
         self._manager = manager
         self._filename = ''
-        self._volume = 0.5
+        self._volume = kwargs.get('volume', 0.5)
+        self.volume = self._volume
         self.filename = filename
 
     def load(self):

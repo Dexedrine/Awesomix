@@ -6,7 +6,7 @@ import sys
 
 if __name__ == '__main__':
     pygame = PygameSoundManager()
-    sound = Sound(pygame, sys.argv[1])
+    sound = Sound(pygame, sys.argv[1], volume=1.)
     sound.load()
     sound.play()
     sleep(10)

@@ -17,7 +17,7 @@ class MTQuarter(MTWidget):
         self._active = False
         #valeur du zoom par defaut =5
         self.active_zoom = kwargs.get('active_zoom', 5)
-        #par defaut none mais prend l'id du premier doigt, c'est l'uid qui controle les actions
+        #par defaut none mais prend l'idch du premier doigt, c'est l'uid qui controle les actions
         self._active_touch = None
 
     @property
@@ -58,9 +58,10 @@ class MTQuarter(MTWidget):
         if self._active_touch is not None:
            return
         self._active_touch = touch.uid
-        print 'on_touch_down()',touch.pos
         self.active = True
         self.update_widget(*touch.pos)
+        self.dispatch_event('on_release')
+        self.dispatch_event('on_state_change', self.active)
         return True
 
 
@@ -69,9 +70,10 @@ class MTQuarter(MTWidget):
             return
         if super(MTQuarter,self).on_touch_up(touch):
             return True
-        print 'on_touch_up()',touch.pos
         self.active = False
         self._active_touch = None
+        self.dispatch_event('on_press')
+        self.dispatch_event('on_state_change', self.active)
         return True
 
     def on_touch_move(self,touch):
@@ -82,7 +84,6 @@ class MTQuarter(MTWidget):
         if touch.uid != self._active_touch:
             return
         self.update_widget(*touch.pos)
-        print 'move', touch.pos
         return True
 
     def draw(self):
@@ -100,7 +101,14 @@ class MTQuarter(MTWidget):
         super(MTQuarter, self).on_update()
         self.lzoom = interpolate(self.lzoom, self.zoom, 5)
 
+    def on_press(self):
+        pass
 
+    def on_release(self):
+        pass
+
+    def on_state_change(self, state):
+        return state
 
 if __name__ == '__main__':
     w = getWindow()
