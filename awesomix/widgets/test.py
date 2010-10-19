@@ -13,8 +13,12 @@ if __name__ == '__main__':
     win.add_widget(circle)
     circle2 = MTOptionWidget(pos=(win.width / 2 - 250, win.height / 2))
     circle2.add_widget(MTQuarterSlider(color=(0,1,0)))
+    circle2.add_widget(MTQuarterSlider(color=(0.5,1,0.5)))
+    circle2.add_widget(MTQuarterSlider(color=(0.1,0.1,0.5)))
     button = MTQuarterButton(color=(1,0,0))
+    button3 = MTQuarterButton(color=(1,0.5,0.5))
     circle2.add_widget(button)
+    circle2.add_widget(button3)
     win.add_widget(circle2)
 
     def on_button_press(index):
