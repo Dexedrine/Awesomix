@@ -8,7 +8,7 @@ class MTQuarterButton(MTQuarter):
 if __name__ == '__main__':
     w = getWindow()
     button = MTQuarterButton(pos=w.center)
-    button2 = MTQuarterButton(pos=w.center, start_angle=100)
+    button2 = MTQuarterButton(pos=(200,200), start_angle=100)
     w.add_widget(button)
     w.add_widget(button2)
     runTouchApp()
