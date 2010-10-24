@@ -4,21 +4,28 @@ from math import cos, sin, radians
 class MTQuarter(MTWidget):
     def __init__(self, **kwargs):
         super(MTQuarter, self).__init__(**kwargs)
-        self.zoom = kwargs.get('zoom', 1.)
-        self.lzoom = self.zoom
         self.inner_radius = kwargs.get('inner_radius', 50)
         self._outer_radius = kwargs.get('outer_radius', 100)
         self.start_angle = kwargs.get('start_angle', 0)
         self.end_angle = kwargs.get('end_angle', 360 / 10)
 
-        self.color = kwargs.get('color', (255, 165, 0))
-        self.bg_color = kwargs.get('bg_color', (250, 250, 250))
+        self.zoom = kwargs.get('zoom', 1.)
+        self.lzoom = self.zoom
+
         #activation a false par defaut
         self._active = False
         #valeur du zoom par defaut =5
         self.active_zoom = kwargs.get('active_zoom', 5)
         #par defaut none mais prend l'idch du premier doigt, c'est l'uid qui controle les actions
         self._active_touch = None
+
+        self.color = kwargs.get('color', (255, 165, 0))
+        self.bg_color = kwargs.get('bg_color', (250, 250, 250))
+
+        self.register_event_type('on_press')
+        self.register_event_type('on_release')
+        self.register_event_type('on_state_change')
+
 
     @property
     def outer_radius(self):
@@ -41,7 +48,7 @@ class MTQuarter(MTWidget):
     def collide_point(self, x, y):
         cx, cy = self.pos
         radius_line = self.outer_radius * sin(radians(self.start_angle)), \
-                              self.outer_radius * cos(radians(self.start_angle))
+                self.outer_radius * cos(radians(self.start_angle))
         point_dist = Vector(self.pos).distance((x, y))
         point_angle = Vector(radius_line).angle((x - cx, y - cy))
         if point_angle < 0:
@@ -56,11 +63,11 @@ class MTQuarter(MTWidget):
         if not self.collide_point(*touch.pos):
             return
         if self._active_touch is not None:
-           return
+            return
         self._active_touch = touch.uid
         self.active = True
         self.update_widget(*touch.pos)
-        self.dispatch_event('on_release')
+        self.dispatch_event('on_press', touch)
         self.dispatch_event('on_state_change', self.active)
         return True
 
@@ -72,7 +79,7 @@ class MTQuarter(MTWidget):
             return True
         self.active = False
         self._active_touch = None
-        self.dispatch_event('on_press')
+        self.dispatch_event('on_release', touch)
         self.dispatch_event('on_state_change', self.active)
         return True
 
@@ -97,18 +104,18 @@ class MTQuarter(MTWidget):
                 start_angle=self.start_angle,
                 sweep_angle=self.end_angle - self.start_angle)
 
-    def on_update(self):
-        super(MTQuarter, self).on_update()
+        def on_update(self):
+            super(MTQuarter, self).on_update()
         self.lzoom = interpolate(self.lzoom, self.zoom, 5)
 
-    def on_press(self):
+    def on_press(self, *largs):
         pass
 
-    def on_release(self):
+    def on_release(self, *largs):
         pass
 
-    def on_state_change(self, state):
-        return state
+    def on_state_change(self, *largs):
+        pass
 
 if __name__ == '__main__':
     w = getWindow()
@@ -122,5 +129,13 @@ if __name__ == '__main__':
     def on_button_press(*l):
         quarter.active = not quarter.active
     button.connect('on_press', on_button_press)
+
+    @quarter.event
+    def on_press(*largs):
+        print('on press')
+
+    @quarter.event
+    def on_release(*largs):
+        print('on release')
 
     runTouchApp()

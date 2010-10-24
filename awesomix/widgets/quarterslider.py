@@ -4,9 +4,10 @@ from quarter import MTQuarter
 class MTQuarterSlider(MTQuarter):
     def __init__(self, **kwargs):
         super(MTQuarterSlider, self).__init__(**kwargs)
-        self.register_event_type('on_value')
         self.slider_color = kwargs.get('slider_color', (255, 0, 255))
         self._value = 0.5
+
+        self.register_event_type('on_value')
 
     def on_value(self, value):
         pass
