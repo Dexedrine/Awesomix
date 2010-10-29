@@ -1,18 +1,20 @@
 class Sound(object):
     def __init__(self, manager, filename, **kwargs):
-        super(Sound, self).__init__()
+        super(Sound, self).__init__(**kwargs)
         self._manager = manager
-        self._filename = ''
+        self._filename = filename
         self._volume = kwargs.get('volume', 0.5)
         self.volume = self._volume
-        self.filename = filename
+        
 
     def load(self):
-        self._manager.create(self.filename)
-        self._manager.set_volume(1)
+        self._manager.create(self._filename)
 
     def play(self):
         self._manager.play()
+
+    def pause(self):
+        self._manager.pause()
 
     def stop(self):
         self._manager.stop()
@@ -26,7 +28,6 @@ class Sound(object):
         self._volume = volume
         # envoit une commande pour changer le volume de ce son
         volume = property(_get_volume, _set_volume)
-        #manager.set_volume(x)
 
     def get_filename(self):
         return self._filename
@@ -37,4 +38,3 @@ class Sound(object):
         self._filename = filename
         self.load()
         filename = property(_get_filename, _set_filename)
-

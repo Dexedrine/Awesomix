@@ -3,12 +3,12 @@ class SoundManager(object):
         super(SoundManager, self).__init__()
 
     def create(self, filename):
-        '''Charge un son, et renvoit une class Son
-        '''
-        #return Sound(filename)
         pass
 
     def play(self):
+        pass
+
+    def pause(self):
         pass
 
     def stop(self):
