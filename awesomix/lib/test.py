@@ -6,7 +6,7 @@ import sys
 
 if __name__ == '__main__':
     pyjack = Pyjack()
-    #pyjack.connect()
+    pyjack.connect()
     manager = SooperlooperSoundManager()
     sound = Sound(manager, sys.argv[1])
     sound.load()
