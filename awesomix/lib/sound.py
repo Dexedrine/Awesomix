@@ -5,6 +5,7 @@ class Sound(object):
         self._filename = filename
         self._volume = kwargs.get('volume', 0.5)
         self.volume = self._volume
+        self._pause = False
         
 
     def load(self):
@@ -14,7 +15,12 @@ class Sound(object):
         self._manager.play()
 
     def pause(self):
-        self._manager.pause()
+        if (self._pause == False):
+            self._manager.pause()
+            self._pause = True
+        else:
+            self._manager.play()
+            self._pause = False
 
     def stop(self):
         self._manager.stop()

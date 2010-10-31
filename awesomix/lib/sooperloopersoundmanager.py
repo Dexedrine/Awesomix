@@ -19,5 +19,5 @@ class SooperlooperSoundManager(SoundManager):
         sendOSCMsg('/sl/0/hit',['pause'])
 
     def stop(self):
-        sendOSCMsg('/loop_del', 0)
+        sendOSCMsg('/loop_del', [0])
 

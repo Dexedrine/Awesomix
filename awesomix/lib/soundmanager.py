@@ -1,6 +1,6 @@
 class SoundManager(object):
-    def __init__(self):
-        super(SoundManager, self).__init__()
+    def __init__(self, **kwargs):
+        super(SoundManager, self).__init__(**kwargs)
 
     def create(self, filename):
         pass
