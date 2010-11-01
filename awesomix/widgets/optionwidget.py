@@ -9,7 +9,8 @@ class MTOptionWidget(MTMovableCircleWidget):
         super(MTOptionWidget, self).on_update()
         angle = 0
         totalzoom = sum([x.lzoom for x in self.children])
-        anglestep = 360. / totalzoom
+        if (totalzoom != 0):
+            anglestep = 360. / totalzoom
         for index,child in enumerate(self.children):
             child.pos = self.pos
             child.inner_radius = self.radius
