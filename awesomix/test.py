@@ -1,5 +1,7 @@
 from pymt import *
 from widgets.movablecirclewidget import MTMovableCircleWidget
+from widgets.optionwidget import MTOptionWidget
+from widgets.quarterbutton import MTQuarterButton
 
 from lib.sound import Sound
 from lib.soundmanager import SoundManager
@@ -7,8 +9,14 @@ from lib.sooperloopersoundmanager import SooperlooperSoundManager
 from lib.pyjack import Pyjack
 
 from simpleOSC import *
-import sys
+import sys, os
+from os.path import realpath, join
+from glob import glob
 
+class AudioOption(MTOptionWidget):
+    def draw(self):
+        super(AudioOption, self).draw()
+        drawLabel(self.audio.soundid, pos=self.pos, font_size=24)
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
@@ -19,22 +27,22 @@ if __name__ == '__main__':
     pyjack = Pyjack()
     pyjack.connect()
     manager = SooperlooperSoundManager()
-    print(sys.argv[1])
-    sound = Sound(manager, sys.argv[1])
-    sound.load()
 
-    circle = MTMovableCircleWidget(pos=win.center)
-    win.add_widget(circle)
+    for filename in glob(join(sys.argv[1], '*.wav')):
+        sound = manager.create(realpath(filename))
+        #sound.load()
+        sound.play()
+        print(filename, realpath(filename))
+        option = AudioOption()
+        option.audio = sound
+        win.add_widget(option)
 
-    sound.play()
-    
-    @circle.event
-    def on_press(*largs):
-        #print(circle.active())
-        sound.pause()
+        @option.event
+        def on_press(*largs):
+            sound.pause()
+
 
     runTouchApp()
-    sound.stop()
 
     sendOSCMsg('/quit')
     closeOSC()
