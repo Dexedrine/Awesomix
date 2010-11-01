@@ -4,15 +4,15 @@ class SoundManager(object):
 
     def create(self, filename):
         pass
-
-    def play(self):
+    
+    def load(self, soundid):
         pass
 
-    def pause(self):
+    def play(self, soundid):
         pass
 
-    def stop(self):
+    def pause(self, soundid):
         pass
 
-    def set_volume(self, x):
+    def stop(self, soundid):
         pass

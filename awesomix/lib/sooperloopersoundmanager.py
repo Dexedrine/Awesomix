@@ -1,3 +1,4 @@
+from sound import Sound
 from soundmanager import SoundManager
 from simpleOSC import *
 
@@ -7,17 +8,28 @@ class SooperlooperSoundManager(SoundManager):
         self.addr = kwargs.get('addr','osc.udp://127.0.0.1:9952')
         initOSCServer(port=9952)
         initOSCClient(port=9951)
+        self._nextid = 0
+
+    def nextid(self):
+        soundid = self._nextid
+        self._nextid += 1
+        return soundid
+
 
     def create(self, filename):
-        sendOSCMsg('/sl/0/load_loop', [filename, self.addr, '/loop/0'])
+        soundid = self.nextid()
+        sendOSCMsg('/sl/%d/load_loop' %soundid, [filename, self.addr, '/loop/%d' %soundid])
         sendOSCMsg('/loop_add', [2, 60])
+        return Sound(self, filename, soundid)
 
-    def play(self):
-        sendOSCMsg('/sl/0/hit',['trigger'])
+    def load(self, soundid):
+        pass
 
-    def pause(self):
-        sendOSCMsg('/sl/0/hit',['pause'])
+    def play(self, soundid):
+        sendOSCMsg('/sl/%d/hit' %soundid, ['trigger'])
 
-    def stop(self):
-        sendOSCMsg('/loop_del', [0])
+    def pause(self, soundid):
+        sendOSCMsg('/sl/%d/hit' %soundid,['pause'])
 
+    def stop(self, soundid):
+        sendOSCMsg('/loop_del', ['%d'] %soundid)

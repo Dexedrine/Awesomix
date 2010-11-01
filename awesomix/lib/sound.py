@@ -1,29 +1,30 @@
 class Sound(object):
-    def __init__(self, manager, filename, **kwargs):
+    def __init__(self, manager, filename, soundid, **kwargs):
         super(Sound, self).__init__(**kwargs)
         self._manager = manager
         self._filename = filename
+        self.soundid = soundid
         self._volume = kwargs.get('volume', 0.5)
         self.volume = self._volume
         self._pause = False
-        
+
 
     def load(self):
-        self._manager.create(self._filename)
+        self._manager.load(self.soundid)
 
     def play(self):
-        self._manager.play()
+        self._manager.play(self.soundid)
 
     def pause(self):
         if (self._pause == False):
-            self._manager.pause()
+            self._manager.pause(self.soundid)
             self._pause = True
         else:
-            self._manager.play()
+            self._manager.play(self.soundid)
             self._pause = False
 
     def stop(self):
-        self._manager.stop()
+        self._manager.stop(self.soundid)
 
     def get_volume(self):
         return self._volume
