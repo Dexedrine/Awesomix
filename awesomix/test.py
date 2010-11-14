@@ -29,10 +29,9 @@ if __name__ == '__main__':
     manager = SooperlooperSoundManager()
 
     for filename in glob(join(sys.argv[1], '*.wav')):
-        sound = manager.create(realpath(filename))
-        #sound.load()
+        sound = manager.create(filename)
         sound.play()
-        print(filename, realpath(filename))
+        
         option = AudioOption()
         option.audio = sound
         win.add_widget(option)
