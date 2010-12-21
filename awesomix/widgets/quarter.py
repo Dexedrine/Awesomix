@@ -22,6 +22,10 @@ class MTQuarter(MTWidget):
         self.color = kwargs.get('color', (255, 165, 0))
         self.bg_color = kwargs.get('bg_color', (250, 250, 250))
 
+        self.label = kwargs.get('label', "")
+        #Permet l'affichage du label
+        self.label_visible = kwargs.get('label_visible', False)
+
         self.register_event_type('on_press')
         self.register_event_type('on_release')
         self.register_event_type('on_state_change')
@@ -30,6 +34,9 @@ class MTQuarter(MTWidget):
     @property
     def outer_radius(self):
         return self._outer_radius + ((self.lzoom - 1) * 10)
+
+    def get_label(self):
+        return self.label
 
     def _get_active(self):
         return self._active
@@ -103,9 +110,14 @@ class MTQuarter(MTWidget):
                 outer_radius=self.outer_radius,
                 start_angle=self.start_angle,
                 sweep_angle=self.end_angle - self.start_angle)
+        #Affichage du label
+        if self.label_visible:
+            dx = (self.inner_radius + ((self.outer_radius - self.inner_radius) / 2)) * sin(radians(self.start_angle + ((self.end_angle - self.start_angle) / 2)))
+            dy = (self.inner_radius + ((self.outer_radius - self.inner_radius) / 2)) * cos(radians(self.start_angle))
+            drawLabel(self.label, pos=(self.x + dx, self.y + dy), font_size=12)
 
-        def on_update(self):
-            super(MTQuarter, self).on_update()
+    def on_update(self):
+        super(MTQuarter, self).on_update()
         self.lzoom = interpolate(self.lzoom, self.zoom, 5)
 
     def on_press(self, *largs):
@@ -123,7 +135,7 @@ if __name__ == '__main__':
     button = MTButton(label='push me')
     w.add_widget(button)
 
-    quarter = MTQuarter(pos=w.center)
+    quarter = MTQuarter(label='Push me', label_visible = True, pos=w.center)
     w.add_widget(quarter)
 
     def on_button_press(*l):

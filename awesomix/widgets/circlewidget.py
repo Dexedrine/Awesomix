@@ -9,6 +9,10 @@ class MTCircleWidget(MTWidget):
         self._active = False
         self._active_touch = None
 
+        self.label = kwargs.get('label', "")
+        #Permet l'affichage du label
+        self.label_visible = kwargs.get('label_visible', False)
+
         self.register_event_type('on_press')
         self.register_event_type('on_release')
 
@@ -51,6 +55,9 @@ class MTCircleWidget(MTWidget):
         else:
             set_color(*self.color)
         drawCircle(pos=self.pos, radius=self.radius)
+        #Affichage du label
+        if self.label_visible:
+            drawLabel(self.label, pos=self.pos, font_size=16)
 
     @property
     def active(self):
