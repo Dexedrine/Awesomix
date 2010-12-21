@@ -10,6 +10,10 @@ class SooperlooperSoundManager(SoundManager):
         initOSCServer(port=9952)
         initOSCClient(port=9951)
         self._nextid = 0
+        self._sounds = {}
+    
+    def get_sounds(self):
+        return self._sounds
 
     def nextid(self):
         soundid = self._nextid
@@ -19,9 +23,10 @@ class SooperlooperSoundManager(SoundManager):
 
     def create(self, filename):
         soundid = self.nextid()
-        sendOSCMsg('/sl/%d/load_loop' % soundid, [filename, self.addr, '/loop/%d' % soundid])
         sendOSCMsg('/loop_add', [2, 60])
         sound = Sound(self, filename, soundid)
+        self._sounds[soundid] = sound
+        sendOSCMsg('/sl/%d/load_loop' % soundid, [filename, self.addr, '/loop/%d' % soundid])
         return sound
 
     def load(self, soundid):
@@ -31,7 +36,13 @@ class SooperlooperSoundManager(SoundManager):
         sendOSCMsg('/sl/%d/hit' %soundid, ['trigger'])
 
     def pause(self, soundid):
-        sendOSCMsg('/sl/%d/hit' %soundid,['pause'])
+        sendOSCMsg('/sl/%d/hit' %soundid, ['pause'])
 
     def stop(self, soundid):
         sendOSCMsg('/loop_del', ['%d'] %soundid)
+
+    def set_volume(self, volume):
+        sendOSCMsg('/sl/%d/set' %soundid, ['input_gain', volume])
+
+    def do_rate(self, value):
+        SoundOsc.send('set', ['rate', int(value * 5)])

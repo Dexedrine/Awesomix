@@ -2,6 +2,9 @@ class SoundManager(object):
     def __init__(self, **kwargs):
         super(SoundManager, self).__init__(**kwargs)
 
+    def set_volume(self, volume):
+        pass
+    
     def create(self, filename):
         pass
     
@@ -15,4 +18,7 @@ class SoundManager(object):
         pass
 
     def stop(self, soundid):
+        pass
+
+    def do_rate(self, value):
         pass
