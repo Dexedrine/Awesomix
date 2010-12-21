@@ -6,25 +6,11 @@ class Sound(object):
         self.soundid = soundid
         self._volume = kwargs.get('volume', 0.5)
         self.volume = self._volume
-        self._pause = False
+        self._pause = True
 
-
-    def load(self):
-        self._manager.load(self.soundid)
-
-    def play(self):
-        self._manager.play(self.soundid)
-
+    @property
     def pause(self):
-        if (self._pause == False):
-            self._manager.pause(self.soundid)
-            self._pause = True
-        else:
-            self._manager.play(self.soundid)
-            self._pause = False
-
-    def stop(self):
-        self._manager.stop(self.soundid)
+        return self._pause
 
     def get_volume(self):
         return self._volume
@@ -35,6 +21,7 @@ class Sound(object):
         self._volume = volume
         # envoit une commande pour changer le volume de ce son
         volume = property(_get_volume, _set_volume)
+        self._manager.set_volume(volume)
 
     def get_filename(self):
         return self._filename
@@ -45,3 +32,21 @@ class Sound(object):
         self._filename = filename
         self.load()
         filename = property(_get_filename, _set_filename)
+
+
+    def load(self):
+        self._manager.load(self.soundid)
+
+    def play(self):
+        if (self._pause == True):
+            self._manager.play(self.soundid)
+            self._pause = False
+        else:
+            self._manager.pause(self.soundid)
+            self._pause = True
+    
+    def stop(self):
+        self._manager.stop(self.soundid)
+
+    def do_rate(self, value):
+        self._manager.do_rate(value)
