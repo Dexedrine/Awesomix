@@ -19,7 +19,7 @@ class MTQuarter(MTWidget):
         #par defaut none mais prend l'idch du premier doigt, c'est l'uid qui controle les actions
         self._active_touch = None
 
-        self.color = kwargs.get('color', (255, 165, 0))
+        self.color = kwargs.get('color', (0, 0, 0))
         self.bg_color = kwargs.get('bg_color', (250, 250, 250))
 
         self.label = kwargs.get('label', "")
