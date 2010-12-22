@@ -31,8 +31,13 @@ if __name__ == '__main__':
     selectEffect = MTOptionWidget(label = 'Effect', label_visible = True, pos = (100, 100))
     win.add_widget(selectEffect)
 
-    def ajout(circle):
+    def rate_change(filename, value):
+        search(filename).do_rate(value)
+        print(value)
+
+    def ajout(circle, filename):
         rate = MTQuarterSlider()
+        rate.connect('on_value', curry(rate_change, filename))
         circle.add_widget(rate)
 
     #Retourne le son du filename
@@ -51,7 +56,7 @@ if __name__ == '__main__':
         soundCircle = MTOptionWidget(label=filename)
         win.add_widget(soundCircle)
         soundCircle.connect('on_press', curry(on_circle_press, filename))
-        ajout(soundCircle)
+        ajout(soundCircle, filename)
 
     x = 0
     for filename in glob(join(sys.argv[len(sys.argv) - 1], '*.wav')):
