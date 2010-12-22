@@ -21,7 +21,7 @@ class Sound(object):
         self._volume = volume
         # envoit une commande pour changer le volume de ce son
         volume = property(_get_volume, _set_volume)
-        self._manager.set_volume(volume)
+        self._manager.set_volume(self.soundid, volume)
 
     def get_filename(self):
         return self._filename
@@ -49,4 +49,4 @@ class Sound(object):
         self._manager.stop(self.soundid)
 
     def do_rate(self, value):
-        self._manager.do_rate(value)
+        self._manager.do_rate(self.soundid, value)

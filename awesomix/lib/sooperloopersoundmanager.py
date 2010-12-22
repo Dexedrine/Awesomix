@@ -41,8 +41,9 @@ class SooperlooperSoundManager(SoundManager):
     def stop(self, soundid):
         sendOSCMsg('/loop_del', ['%d'] %soundid)
 
-    def set_volume(self, volume):
+    def set_volume(self, soundid, volume):
         sendOSCMsg('/sl/%d/set' %soundid, ['input_gain', volume])
 
-    def do_rate(self, value):
-        SoundOsc.send('set', ['rate', int(value * 5)])
+    def do_rate(self, soundid, value):
+        print(int(value * 5))
+        sendOSCMsg('/sl/%d/set' %soundid, ['rate', int(value * 5)])
