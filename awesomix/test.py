@@ -14,7 +14,6 @@ import sys, os
 from os.path import realpath, join
 from glob import glob
 
-
 if __name__ == '__main__':
     if len(sys.argv) < 2:
         print 'Usage: python start.py [option] <directory>'
@@ -28,28 +27,34 @@ if __name__ == '__main__':
     selectSound = MTOptionWidget(label = 'Select', label_visible = True, pos = win.center)
     win.add_widget(selectSound)
 
-    selectEffect = MTOptionWidget(label = 'Effect', label_visible = True, pos = (100, 100))
-    win.add_widget(selectEffect)
+    #selectEffect = MTOptionWidget(label = 'Effect', label_visible = True, pos = (100, 100))
+    #win.add_widget(selectEffect)
 
     def rate_change(filename, value):
-        search(filename).do_rate(value)
-        print(value)
+        manager.search(filename).do_rate(value)
 
+    def volume_change(filename, value):
+        manager.search(filename).set_volume(value)
+
+    def scratch_change(filename, value):
+        manager.search(filename).do_scratch_pos(value)
+    
     def ajout(circle, filename):
-        rate = MTQuarterSlider()
+        y = 1
+        rate = MTQuarterSlider(label = 'rate', label_visible = True, color=(y / 50., y / 20., y / 10.), slider_color=(y / 10., 0., y / 10))
         rate.connect('on_value', curry(rate_change, filename))
         circle.add_widget(rate)
-
-    #Retourne le son du filename
-    def search(filename):
-        #Recuperation de la liste des sons
-        sounds = manager.get_sounds()
-        for index in sounds:
-            if sounds[index].get_filename() == filename:
-                return sounds[index]
+        y+=1
+        volume = MTQuarterSlider(label = 'volume', label_visible = True, color=(y / 50., y / 20., y / 10.), slider_color=(y / 10., 0., y / 10))
+        volume.connect('on_value', curry(volume_change, filename))
+        circle.add_widget(volume)
+        y+=1
+        scratch = MTQuarterSlider(label = 'scratch', label_visible = True, color=(y / 50., y / 20., y / 10.), slider_color=(y / 10., 0., y / 10))
+        scratch.connect('on_value', curry(scratch_change, filename))
+        circle.add_widget(scratch)
 
     def on_circle_press(filename, *largs):
-        search(filename).play()
+        manager.search(filename).play()
 
     def on_button_press(filename, *largs):
         manager.create(filename)
