@@ -41,9 +41,17 @@ class SooperlooperSoundManager(SoundManager):
     def stop(self, soundid):
         sendOSCMsg('/loop_del', ['%d'] %soundid)
 
+    #Retourne le son du filename
+    def search(self, filename):
+        for index in self._sounds:
+            if self._sounds[index].get_filename() == filename:
+                return self._sounds[index]
+
     def set_volume(self, soundid, volume):
-        sendOSCMsg('/sl/%d/set' %soundid, ['input_gain', volume])
+        sendOSCMsg('/sl/%d/set' %soundid, ['wet', volume])
 
     def do_rate(self, soundid, value):
-        print(int(value * 5))
         sendOSCMsg('/sl/%d/set' %soundid, ['rate', int(value * 5)])
+
+    def do_scratch_pos(self, soundid, value):
+        sendOSCMsg('/sl/%d/set' %soundid, ['scratch_pos', value])

@@ -19,6 +19,12 @@ class SoundManager(object):
 
     def stop(self, soundid):
         pass
+    
+    def search(self, filename):
+        pass
 
     def do_rate(self, soundid, value):
+        pass
+
+    def do_scratch_pos(self, soundid, value):
         pass
