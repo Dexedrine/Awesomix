@@ -3,3 +3,8 @@ Awesomix !
 
 A live music mixer using Python / PyMT
 Work in Progress
+
+For start Awesomix, run
+
+jackd
+python start.py [option] <directory>
