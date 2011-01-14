@@ -28,3 +28,6 @@ class SoundManager(object):
 
     def do_scratch_pos(self, soundid, value):
         pass
+    
+    def do_reverse(self, soundid):
+        pass

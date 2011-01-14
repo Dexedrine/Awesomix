@@ -55,3 +55,6 @@ class SooperlooperSoundManager(SoundManager):
 
     def do_scratch_pos(self, soundid, value):
         sendOSCMsg('/sl/%d/set' %soundid, ['scratch_pos', value])
+    
+    def do_reverse(self, soundid):
+        sendOSCMsg('/sl/%d/hit' %soundid, ['reverse'])

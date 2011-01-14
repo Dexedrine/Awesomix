@@ -39,6 +39,9 @@ if __name__ == '__main__':
     def scratch_change(filename, value):
         manager.search(filename).do_scratch_pos(value)
     
+    def reverse_change(filename, self):
+        manager.search(filename).do_reverse()
+
     def ajout(circle, filename):
         y = 1
         rate = MTQuarterSlider(label = 'rate', label_visible = True, color=(y / 50., y / 20., y / 10.), slider_color=(y / 10., 0., y / 10))
@@ -52,6 +55,10 @@ if __name__ == '__main__':
         scratch = MTQuarterSlider(label = 'scratch', label_visible = True, color=(y / 50., y / 20., y / 10.), slider_color=(y / 10., 0., y / 10))
         scratch.connect('on_value', curry(scratch_change, filename))
         circle.add_widget(scratch)
+        y+=1
+        reverse = MTQuarterButton(label = 'reverse', label_visible = True, color=(y / 50., y / 20., y / 10.), slider_color=(y / 10., 0., y / 10))
+        reverse.connect('on_press', curry(reverse_change, filename))
+        circle.add_widget(reverse)
 
     def on_circle_press(filename, *largs):
         manager.search(filename).play()

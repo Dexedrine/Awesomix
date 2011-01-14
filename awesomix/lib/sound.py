@@ -53,3 +53,6 @@ class Sound(object):
 
     def do_scratch_pos(self, value):
         self._manager.do_scratch_pos(self.soundid, value)
+
+    def do_reverse(self):
+        self._manager.do_reverse(self.soundid)
